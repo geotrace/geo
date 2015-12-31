@@ -3,7 +3,8 @@ package geo
 import "math"
 
 // CircleToPolygonSegments описывает количество сегментов, используемых для описания
-// круга в виде полигона.
+// круга в виде полигона. Если необходима большая или меньшая точность, то значение данной
+// переменной можно просто изменить при инициализации.
 var CircleToPolygonSegments = 16
 
 // Circle описывает круг с заданным радиусом.
@@ -44,11 +45,11 @@ func (c Circle) Polygon() Polygon {
 
 // Geo возвращает описание круга в виде GeoJSON-объекта.
 // По той простой идеи, что GeoJSON не поддерживает круги, он преобразуется в полигон.
-func (c Circle) Geo() interface{} {
-	return struct {
-		Type        string
-		Coordinates Polygon
-	}{
+func (c Circle) Geo() *GeoJSON {
+	if c.Center.IsZero() || c.Radius <= 0 {
+		return nil
+	}
+	return &GeoJSON{
 		Type:        "Polygon",
 		Coordinates: c.Polygon(),
 	}
