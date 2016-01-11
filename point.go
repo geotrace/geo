@@ -54,7 +54,7 @@ func (p Point) MarshalJSON() ([]byte, error) {
 	if p.IsZero() {
 		return []byte("null"), nil
 	}
-	return []byte(fmt.Sprintf("[%.6f, %.6f]", p.Longitude(), p.Latitude()))
+	return []byte(fmt.Sprintf("[%.6f, %.6f]", p.Longitude(), p.Latitude())), nil
 }
 
 const (
