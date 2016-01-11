@@ -9,8 +9,8 @@ var CircleToPolygonSegments = 16
 
 // Circle описывает круг с заданным радиусом.
 type Circle struct {
-	Center Point
-	Radius float64
+	Center Point   `json:"center"`
+	Radius float64 `json:"radius"`
 }
 
 // NewCircle возвращает новое описание круга.
