@@ -1,6 +1,9 @@
 package geo
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 // Point описывает координаты географической точки: долгота, широта. Именно такая последовательность
 // выбрана только потому, что это наиболее близко представлению координат на плоскости: x и y, а не
@@ -44,6 +47,14 @@ func (p Point) Geo() *GeoJSON {
 		Type:        "Point",
 		Coordinates: p[:],
 	}
+}
+
+// MarshalJSON отдает форматированное представление JSON.
+func (p Point) MarshalJSON() ([]byte, error) {
+	if p.IsZero() {
+		return []byte("null"), nil
+	}
+	return []byte(fmt.Sprintf("[%.6f, %.6f]", p.Longitude(), p.Latitude()))
 }
 
 const (
