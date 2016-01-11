@@ -26,3 +26,22 @@ func TestPoint(t *testing.T) {
 	p2 := NewPoint(-139.55, -77.1804)
 	fmt.Printf("%f\n", p1.Distance(p2))
 }
+
+func TestPointJSON(t *testing.T) {
+	point := NewPoint(37.573511111, 55.715084555555)
+	data, err := json.Marshal(point)
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Printf("%s\n", data)
+	data, err = json.MarshalIndent(point, "", "\t")
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Printf("%s\n", data)
+	data, err = point.MarshalJSON()
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Printf("%s\n", data)
+}
