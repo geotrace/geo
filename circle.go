@@ -1,6 +1,9 @@
 package geo
 
-import "math"
+import (
+	"fmt"
+	"math"
+)
 
 // CircleToPolygonSegments описывает количество сегментов, используемых для описания
 // круга в виде полигона. Если необходима большая или меньшая точность, то значение данной
@@ -19,6 +22,15 @@ func NewCircle(lon, lat, radius float64) Circle {
 		Center: NewPoint(lon, lat),
 		Radius: radius,
 	}
+}
+
+// MarshalJSON отдает форматированное представление JSON.
+func (c Circle) MarshalJSON() ([]byte, error) {
+	if c.Center.IsZero() {
+		return []byte("null"), nil
+	}
+	return []byte(fmt.Sprintf("{\"center\": [%f,%f], \"radius\": %.f}",
+		c.Center.Longitude(), c.Center.Latitude(), c.Radius)), nil
 }
 
 // Polygon возвращает описание круга в виде полигона.
